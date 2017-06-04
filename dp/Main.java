@@ -60,6 +60,35 @@ public class Main {
         }
         return dp[0][s.length() - 1];
     }
+	// 5
+	public String longestPalindrome(String s) {
+        if(s == null || s.length() < 2)
+            return s;
+        int len = s.length();
+        int index = -1;
+        int maxLen = 0;
+        for(int i = 0; i < len - 1; i++) {
+            int maxOdd = findLongest(s, i, i);
+            int maxEven = findLongest(s, i, i + 1);
+            if(maxLen < Math.max(maxOdd, maxEven)){
+                index = i;
+                maxLen = Math.max(maxOdd, maxEven);
+            }
+        }
+        if(maxLen % 2 == 0) {
+            return s.substring(index - (maxLen / 2) + 1, index + (maxLen / 2) + 1);
+        }
+        else {
+            return s.substring(index - (maxLen / 2), index + (maxLen / 2) + 1);
+        }
+    }
+    public int findLongest(String s, int i, int j) {
+        while(i >= 0 && j < s.length() && s.charAt(i) == s.charAt(j)) {
+            i -= 1;
+            j += 1;
+        }
+        return j - i - 1;
+    }
     public static void main(String[] args){
         Main m = new Main();
         int[] nums = new int[]{23, 2, 4, 6, 7};
