@@ -116,6 +116,24 @@ public class Main {
         }
         return false;
     }
+    // 467
+    public int findSubstringInWraproundString(String p) {
+        int[] count = new int[26];
+        int maxL = 0;
+        for(int i = 0; i < p.length(); i++) {
+            if(i > 0 && (p.charAt(i) - p.charAt(i - 1) == 1 || (p.charAt(i) == 'a' && p.charAt(i - 1) == 'z'))){
+                maxL += 1;
+            }
+            else
+                maxL = 1;
+            int index = p.charAt(i) - 'a';
+            count[index] = Math.max(count[index], maxL);
+        }
+        int sum = 0;
+        for(int i = 0; i < 26; i++)
+            sum += count[i];
+        return sum;
+    }
     public static void main(String[] args){
         Main m = new Main();
         int[] nums = new int[]{23, 2, 4, 6, 7};
