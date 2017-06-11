@@ -167,6 +167,31 @@ public class Main {
         }
         return result;
     }
+    // 472
+    public List<String> findAllConcatenatedWordsInADict(String[] words) {
+        HashMap<String, Integer> map = new HashMap<>();
+        List<String> result = new LinkedList<>();
+        for(String word: words)
+            map.put(word, 1);
+        for(String word: words){
+            if(checkConcatenated(word, map, 0))
+                result.add(word);
+        }
+        return result;
+    }
+    public boolean checkConcatenated(String word, Map map, int count) {
+        if(word.equals("") && count >= 2) {
+            return true;
+        }
+        for(int i = 1; i <= word.length(); i++) {
+            if((int)map.getOrDefault(word.substring(0, i), 0) == 1) {
+                if((int)map.getOrDefault(word.substring(i), 0) == 1 || checkConcatenated(word.substring(i), map, count + 1)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public static void main(String[] args){
         Main m = new Main();
         int[] nums = new int[]{23, 2, 4, 6, 7};
