@@ -192,6 +192,21 @@ public class Main {
         }
         return false;
     }
+	// 139
+    public boolean wordBreak(String s, List<String> wordDict) {
+        if(s == null || s.length() == 0)
+            return false;
+        boolean[] dp = new boolean[s.length() + 1];
+        dp[0] = true;
+        for(int i = 1; i <= s.length(); i++) {
+            for(int j = 0; j < i; j++) {
+                if(wordDict.contains(s.substring(j, i))) {
+                    dp[i] = dp[i] || dp[j];
+                }
+            }
+        }
+        return dp[s.length()];
+    }
     public static void main(String[] args){
         Main m = new Main();
         int[] nums = new int[]{23, 2, 4, 6, 7};
