@@ -207,6 +207,20 @@ public class Main {
         }
         return dp[s.length()];
     }
+    // 517
+    public int findMinMoves(int[] machines){
+        int total = 0;
+        for(int machine: machines)
+            total += machine;
+        if(total % machines.length != 0)
+            return -1;
+        int avg = total / machines.length, cnt = 0, max = 0;
+        for(int load: machines){
+            cnt += load - avg;
+            max = Math.max(Math.max(max, Math.abs(cnt)), load - avg);
+        }
+        return max;
+    }
     public static void main(String[] args){
         Main m = new Main();
         int[] nums = new int[]{23, 2, 4, 6, 7};
