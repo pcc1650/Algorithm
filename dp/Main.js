@@ -25,3 +25,11 @@ var canCross = function(stones) {
     }
     return false
 };
+
+/**
+ * @param {number[]} machines
+ * @return {number}
+ */
+ // 517
+var findMinMoves = function(machines) {
+};
