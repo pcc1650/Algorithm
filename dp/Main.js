@@ -32,4 +32,16 @@ var canCross = function(stones) {
  */
  // 517
 var findMinMoves = function(machines) {
+    let total = machines.reduce((acc, val) => {
+        return acc + val 
+    }, 0)
+    if(total % machines.length !== 0)
+        return -1
+    let avg = total / machines.length
+    let count = 0, max = 0
+    machines.map((machine) => {
+        count += machine - avg
+        max = Math.max(machine - avg, Math.abs(count), max)
+    })
+    return max
 };
