@@ -221,6 +221,26 @@ public class Main {
         }
         return max;
     }
+    // 514
+    public int findRotateSteps(String ring, String key) {
+        int rLen = ring.length();
+        int kLen = key.length();
+        int dp[][] = new int[kLen + 1][rLen];
+        
+        for(int i = kLen - 1; i >= 0; i--) {
+            for(int j = 0; j < rLen; j++) {
+                dp[i][j] = Integer.MAX_VALUE;
+                for(int k = 0; k < rLen; k++) {
+                    if(ring.charAt(k) == key.charAt(i)) {
+                        int diff = Math.abs(k - j);
+                        int step = Math.min(diff, rLen - diff);
+                        dp[i][j] = Math.min(dp[i][j], dp[i + 1][k] + step);
+                    }
+                }
+            }
+        }
+        return dp[0][0] + kLen;
+    }
     public static void main(String[] args){
         Main m = new Main();
         int[] nums = new int[]{23, 2, 4, 6, 7};
