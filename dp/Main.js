@@ -45,3 +45,31 @@ var findMinMoves = function(machines) {
     })
     return max
 };
+/**
+ * @param {string} ring
+ * @param {string} key
+ * @return {number}
+ */
+// 514
+var findRotateSteps = function(ring, key) {
+    let rLen = ring.length
+    let kLen = key.length
+    let dp = []
+    for(let i = 0; i <= kLen; i++)
+        dp[i] = new Array(rLen)
+    for(let i = 0; i <= rLen; i++)
+        dp[kLen][i] = 0
+    for(let i = kLen - 1; i >= 0; i--) {
+        for(let j = 0; j < rLen; j++) {
+            dp[i][j] = Number.MAX_VALUE
+            for(let k = 0; k < rLen; k++) {
+                if(ring[k] === key[i]) {
+                    let diff = Math.abs(k - j)
+                    diff = Math.min(diff, rLen - diff)
+                    dp[i][j] = Math.min(dp[i][j], dp[i + 1][k] + diff)
+                }
+            }
+        }
+    }
+    return dp[0][0] + kLen
+};
