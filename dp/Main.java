@@ -267,6 +267,32 @@ public class Main {
         }
         return ans;
     }
+
+    // 552 
+	static final int M = 1000000007;
+    
+    public int checkRecord(int n) {
+        long[] PorL = new long[n + 1]; // end with P or L
+        long[] P = new long[n + 1]; // end with P
+        PorL[0] = P[0] = 1;
+        PorL[1] = 2;
+        P[1] = 1;
+        
+        for(int i = 2; i <= n; i++) {
+            P[i] = PorL[i - 1];
+            // not use PorL[i-1] * 2 to limit L in 2
+            PorL[i] = (P[i] + P[i - 1] + P[i - 2]) % M;
+        }
+        
+        long res = PorL[n];
+        for(int i = 0; i < n; i++) {
+            // ???
+            long s = (PorL[i] * PorL[n - i - 1]) % M;
+            res = (res + s) % M;
+        }
+        
+        return (int)res;
+    } 
     public static void main(String[] args){
         Main m = new Main();
         int[] nums = new int[]{23, 2, 4, 6, 7};
