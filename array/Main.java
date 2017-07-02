@@ -55,3 +55,20 @@ public int[] plusOne(int[] digits) {
         res[j] = digits[j - 1];
     return res;
 }
+// 400
+public int findNthDigit(int n) {
+    int len = 1;
+    // long
+    long count = 9;
+    int start = 1;
+    while(n > len * count) {
+        n -= len * count;
+        len += 1;
+        count *= 10;
+        start *= 10;
+    }
+    start += (n - 1) / len;
+    String s = Integer.toString(start);
+    // Character.getNumericValue
+    return Character.getNumericValue(s.charAt((n - 1) % len));
+}
