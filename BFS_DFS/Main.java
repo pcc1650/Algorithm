@@ -29,6 +29,7 @@ public char[][] updateBoard(char[][] board, int[] click) {
         }
     }
     if(count > 0) {
+		// or board[x][y] = (char)(count + '0');
         char temp = Character.forDigit(count, 10);
         board[x][y] = temp;
     }

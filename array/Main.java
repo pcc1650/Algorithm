@@ -72,3 +72,24 @@ public int findNthDigit(int n) {
     // Character.getNumericValue
     return Character.getNumericValue(s.charAt((n - 1) % len));
 }
+// 532
+public int findPairs(int[] nums, int k) {
+    if(k < 0 || nums == null || nums.length == 0)
+        return 0;
+    Map<Integer, Integer> hs = new HashMap<>();
+    int count = 0;
+    for(int num : nums){
+        hs.put(num, hs.getOrDefault(num, 0) + 1);
+    }
+    for (Map.Entry<Integer, Integer> entry : hs.entrySet()) {
+        if(k == 0) {
+            if(entry.getValue() >= 2)
+                count += 1;
+        }
+        else {
+            if(hs.containsKey(entry.getKey() + k))
+                count += 1;
+        }
+    }
+    return count;
+}
