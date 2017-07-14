@@ -32,6 +32,7 @@ public boolean isSameTree(TreeNode p, TreeNode q) {
     }
 }
 // 530
+// This method aims to arbitry tree
 public int getMinimumDifference(TreeNode root) {
     int res = Integer.MAX_VALUE;
     int val = root.val;
@@ -59,4 +60,22 @@ public int getMinimumDifference(TreeNode root) {
     }
     res = Math.min(res, Math.min(tempLeftMin, tempRightMin));
     return res;
+}
+// 530 for BST
+int min = Integer.MAX_VALUE;
+Integer prev = null;
+
+public int getMinimumDifference(TreeNode root) {
+    if (root == null) return min;
+    
+    getMinimumDifference(root.left);
+    
+    if (prev != null) {
+        min = Math.min(min, root.val - prev);
+    }
+    prev = root.val;
+    
+    getMinimumDifference(root.right);
+    
+    return min;
 }
