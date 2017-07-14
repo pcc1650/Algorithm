@@ -31,3 +31,32 @@ public boolean isSameTree(TreeNode p, TreeNode q) {
         return false;
     }
 }
+// 530
+public int getMinimumDifference(TreeNode root) {
+    int res = Integer.MAX_VALUE;
+    int val = root.val;
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.add(root);
+    while(queue.size() != 0){
+        TreeNode node = queue.poll();
+        if(node.left != null) {
+            queue.add(node.left);
+            res = Math.min(res, Math.abs(val - node.left.val));
+        }
+        if(node.right != null) {
+            queue.add(node.right);
+            res = Math.min(res, Math.abs(val - node.right.val));
+        }
+    }
+    
+    int tempLeftMin = Integer.MAX_VALUE;
+    int tempRightMin = Integer.MAX_VALUE;
+    if(root.left != null) {
+        tempLeftMin = getMinimumDifference(root.left);
+    }
+    if(root.right != null) {
+        tempRightMin = getMinimumDifference(root.right);
+    }
+    res = Math.min(res, Math.min(tempLeftMin, tempRightMin));
+    return res;
+}
