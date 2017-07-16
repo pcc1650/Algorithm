@@ -75,3 +75,31 @@ public boolean canJump(int[] nums) {
     }
     return lastPos == 0;
 }
+
+// 45 
+// dp. TLE.
+public int jump(int[] nums) {
+    int[] dp = new int[nums.length];
+    for(int i = 1; i < nums.length; i++)
+        dp[i] = Integer.MAX_VALUE;
+    for(int i = 0; i < nums.length; i++) {
+        for(int j = 1; j <= nums[i]; j++){
+            if(i + j < nums.length){
+                dp[i + j] = Math.min(dp[i + j], dp[i] + 1);
+            }
+        }
+    }
+    return dp[nums.length - 1];
+}
+// Greedy. Correct
+public int jump(int[] nums) {
+    int lastStep = 0, furtherStep = 0, count = 0;
+    for(int i = 0; i < nums.length - 1; i++) {
+        furtherStep = Math.max(furtherStep, i + nums[i]);
+        if(i == lastStep) {
+            lastStep = furtherStep;
+            count += 1;
+        }
+    }
+    return count;
+}
