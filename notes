@@ -3,3 +3,5 @@ Usually, solving and fully understanding a dynamic programming problem is a 4 st
 2. Optimize by using a memorization table(top-down dynamic programming)
 3. Remove the need for recursion(bottom-up dynamic programming)
 4. Apply final tricks to reduce the time/ memory complexity
+
+Top-down to bottom up conversion is done by eliminating recursion.
