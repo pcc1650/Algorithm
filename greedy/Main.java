@@ -146,3 +146,37 @@ public int canCompleteCircuit(int[] gas, int[] cost) {
         return -1;
     return start;
 }
+
+// 406
+// pay attention to comparator in priority queue.
+public int[][] reconstructQueue(int[][] people) {
+    if(people == null || people.length == 0)
+        return people;
+    PriorityQueue<int[]> queue = new PriorityQueue<>((a, b) -> {
+            if(b[0] == a[0])
+                return a[1] - b[1];
+            else
+                return b[0] - a[0];
+        }
+    );
+    LinkedList<int[]> resList = new LinkedList<>();
+    for(int i = 0; i < people.length; i++) {
+        queue.add(people[i]);
+    }
+
+    for(int i = 0; i < people.length; i++) {
+        int[] temp = queue.poll();
+        if(temp[1] > resList.size()){
+            resList.add(temp);
+            continue;
+        }
+        resList.add(temp[1], temp);
+    }
+    
+    int[][] res = new int[people.length][2];
+    for(int i = 0; i < people.length; i++) {
+        res[i][0] = resList.get(i)[0];
+        res[i][1] = resList.get(i)[1];
+    }
+    return res;
+}
