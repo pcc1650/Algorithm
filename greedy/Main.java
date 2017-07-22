@@ -180,3 +180,40 @@ public int[][] reconstructQueue(int[][] people) {
     }
     return res;
 }
+// 135
+// Brute force. TLE. O(n2)
+// Two array method. Accepted. O(n)
+public int candy(int[] ratings) {
+    int[] candies = new int[ratings.length];
+    int[] LTRcandies = new int[ratings.length];
+    int[] RTLcandies = new int[ratings.length];
+    Arrays.fill(LTRcandies, 1);
+    Arrays.fill(RTLcandies, 1);
+    int sum = 0;
+    for (int i = 1; i < ratings.length; i++) {
+        if (ratings[i] > ratings[i - 1] && LTRcandies[i] <= LTRcandies[i - 1]) {
+            LTRcandies[i] = LTRcandies[i - 1] + 1;
+        }
+    }
+    for (int i = ratings.length - 2; i >= 0; i--) {
+        if (ratings[i] > ratings[i + 1] && RTLcandies[i] <= RTLcandies[i + 1]) {
+            RTLcandies[i] = RTLcandies[i + 1] + 1;
+        }
+    }
+    for(int i = 0; i < ratings.length; i++)
+        candies[i] = Math.max(LTRcandies[i], RTLcandies[i]);
+    for(int candy: candies)
+        sum += candy;
+    return sum;
+}
+// 455
+public int findContentChildren(int[] g, int[] s) {
+    Arrays.sort(g);
+    Arrays.sort(s);
+    int count = 0;
+    for(int j = 0; count < g.length && j < s.length; j++) {
+        if(s[j] >= g[count])
+            count += 1;
+    }
+    return count;
+}
