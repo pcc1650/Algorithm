@@ -267,3 +267,25 @@ public String removeKdigits(String num, int k) {
     while (idx < digits && resChar[idx] == '0') idx++;
     return idx == digits? "0": new String(resChar, idx, digits - idx);
 }
+// 630
+public int scheduleCourse(int[][] courses) {
+    if(courses == null || courses.length == 0)
+        return 0;
+    int ini = 0;
+    int last = 0;
+    Arrays.sort(courses, (a, b) -> (a[1] - b[1]));
+    PriorityQueue<int []> queue  = new PriorityQueue<>((a, b) -> (b[0] - a[0]));
+    for(int i = 0; i < courses.length; i++) {
+        if(ini + courses[i][0] <= courses[i][1]){
+            ini += courses[i][0];
+            queue.add(courses[i]);
+        }
+        else {
+            if(!queue.isEmpty() && courses[i][0] <= queue.peek()[0]){
+                ini += courses[i][0] - queue.poll()[0];
+                queue.add(courses[i]);
+            }
+        }
+    }
+    return queue.size();
+}
