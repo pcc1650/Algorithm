@@ -289,3 +289,19 @@ public int scheduleCourse(int[][] courses) {
     }
     return queue.size();
 }
+// 330
+public int minPatches(int[] nums, int n) {
+    long miss = 1;
+    int i = 0, count = 0;
+    while(miss <= n) {
+        if(i < nums.length && nums[i] <= miss) {
+            miss += nums[i];
+            i++;
+        }
+        else {
+            count += 1;
+            miss += miss;
+        }
+    }
+    return count;
+}
