@@ -305,3 +305,19 @@ public int minPatches(int[] nums, int n) {
     }
     return count;
 }
+// 435
+public int eraseOverlapIntervals(Interval[] intervals) {
+    if(intervals == null || intervals.length == 0)
+        return 0;
+    int count = 0;
+    Arrays.sort(intervals, (a, b) -> (a.end - b.end));
+    int endPos = intervals[0].end;
+    for(int i = 1; i < intervals.length; i++) {
+        if(intervals[i].start < endPos) {
+            count += 1;
+            continue;
+        }
+        endPos = intervals[i].end;
+    }
+    return count;
+}
