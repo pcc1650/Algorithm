@@ -80,6 +80,41 @@ public boolean canFinish(int numCourses, int[][] prerequisites) {
     }
     return count == numCourses;
 }
+// 207 DFS
+public boolean canFinish(int numCourses, int[][] prerequisites) {
+    List<Integer>[] succs = new LinkedList[numCourses];
+    boolean[] globalFlag = new boolean[numCourses];
+    for(int i = 0; i < numCourses; i++) {
+        succs[i] = new LinkedList<>();
+    }
+    for(int i = 0; i < prerequisites.length; i++) {
+        int pre = prerequisites[i][1];
+        int suc = prerequisites[i][0];
+        succs[pre].add(suc);
+    }
+    for(int i = 0; i < numCourses; i++) {
+        boolean[] partialFlag = new boolean[numCourses];
+        if(hasCycle(i, succs, partialFlag, globalFlag))
+            return false;
+        else
+            globalFlag[i] = true;
+    }
+    return true;
+}
+private boolean hasCycle(int index, List<Integer>[] succs, boolean[] partialFlag, boolean[] globalFlag) {
+    if(globalFlag[index])
+        return false;
+    partialFlag[index] = true;
+    boolean flag = false;
+    for(int i = 0; i < succs[index].size(); i++) {
+        boolean[] flags = Arrays.copyOf(partialFlag, partialFlag.length);          
+        if(partialFlag[succs[index].get(i)])
+            return true;
+        if(hasCycle(succs[index].get(i), succs, flags, globalFlag))
+            return true;
+    }
+    return false;
+}
 // 210 BFS
 public int[] findOrder(int numCourses, int[][] prerequisites) {
     int[][] matrix = new int[numCourses][numCourses];
