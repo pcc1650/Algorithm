@@ -105,12 +105,10 @@ private boolean hasCycle(int index, List<Integer>[] succs, boolean[] partialFlag
     if(globalFlag[index])
         return false;
     partialFlag[index] = true;
-    boolean flag = false;
     for(int i = 0; i < succs[index].size(); i++) {
+        // Should have a deep copy of current state
         boolean[] flags = Arrays.copyOf(partialFlag, partialFlag.length);          
-        if(partialFlag[succs[index].get(i)])
-            return true;
-        if(hasCycle(succs[index].get(i), succs, flags, globalFlag))
+        if(partialFlag[succs[index].get(i)] || hasCycle(succs[index].get(i), succs, flags, globalFlag))
             return true;
     }
     return false;
