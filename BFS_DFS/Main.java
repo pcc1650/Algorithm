@@ -80,3 +80,36 @@ public boolean canFinish(int numCourses, int[][] prerequisites) {
     }
     return count == numCourses;
 }
+// 210 BFS
+public int[] findOrder(int numCourses, int[][] prerequisites) {
+    int[][] matrix = new int[numCourses][numCourses];
+    int[] inDegree = new int[numCourses];
+    int[] res = new int[numCourses];
+    int index = 0;
+    Queue<Integer> courses = new LinkedList<>();
+    int count = 0;
+    for(int i = 0; i < prerequisites.length; i++) {
+        int pre = prerequisites[i][1];
+        int suc = prerequisites[i][0];
+        matrix[pre][suc] = 1;
+        inDegree[suc] += 1;
+    }
+    
+    for(int i = 0; i < numCourses; i++) {
+        if(inDegree[i] == 0)
+            courses.offer(i);
+    }
+    
+    while(!courses.isEmpty()) {
+        int course = courses.poll();
+        res[index++] = course;
+        count += 1;
+        for(int i = 0; i < numCourses; i++) {
+            if(matrix[course][i] == 1)
+                if(--inDegree[i] == 0)
+                    courses.offer(i);
+        }
+    }
+    
+    return count == numCourses ? res : new int[0];
+}
