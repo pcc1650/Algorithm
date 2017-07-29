@@ -51,3 +51,32 @@ private class Node {
     int x;
     int y;
 }
+
+// 207 BFS
+public boolean canFinish(int numCourses, int[][] prerequisites) {
+    int matric[][] = new int[numCourses][numCourses];
+    int inDegree[] = new int[numCourses];
+    int count = 0;
+    for(int i = 0; i < prerequisites.length; i++) {
+        int pre = prerequisites[i][1];
+        int suc = prerequisites[i][0];
+        matric[pre][suc] = 1;
+        inDegree[suc] += 1;
+    }
+    Queue<Integer> courses = new LinkedList<>();
+    for(int i = 0; i < numCourses; i++)
+        if(inDegree[i] == 0)
+            courses.offer(i);
+        
+    while(!courses.isEmpty()) {
+        int course = courses.poll();
+        count += 1;
+        for(int i = 0; i < numCourses; i++) {
+            if(matric[course][i] != 0){
+                if(--inDegree[i] == 0)
+                    courses.offer(i);
+            }
+        }
+    }
+    return count == numCourses;
+}
