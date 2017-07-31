@@ -146,3 +146,39 @@ public int[] findOrder(int numCourses, int[][] prerequisites) {
     
     return count == numCourses ? res : new int[0];
 }
+// 394
+public String decodeString(String s) {
+    Stack<Integer> count = new Stack<>();
+    Stack<String> result = new Stack<>();
+    int i = 0;
+    result.push("");
+    while(i < s.length()) {
+        char ch = s.charAt(i);
+        if(ch >= '0' && ch <= '9') {
+            String numStr = Character.toString(ch);
+            int index = i + 1;
+            while(s.charAt(index) >= '0' && s.charAt(index) <= '9'){
+                numStr += Character.toString(s.charAt(index++));
+            }
+            int num = Integer.parseInt(numStr);
+            count.push(num);
+            i = index - 1;
+        }
+        else if(ch == '[') {
+            result.push("");
+        }
+        else if(ch == ']') {
+            int num = count.pop();
+            String str = result.pop();
+            String tempStr = "";
+            for(int j = 0; j < num; j++)
+                tempStr += str;
+            result.push(result.pop() + tempStr);
+        }
+        else {
+            result.push(result.pop() + ch);
+        }
+        i++;
+    }
+    return result.pop();
+}
