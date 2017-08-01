@@ -204,3 +204,19 @@ private void findFriends(int start, boolean[] flags, int[][] M) {
         }
     }
 }
+// 515
+public List<Integer> largestValues(TreeNode root) {
+    List<Integer> res = new LinkedList<>();
+    findLargestValues(root, 0, res);
+    return res;
+}
+private void findLargestValues(TreeNode root, int row, List<Integer> res) {
+    if(root == null)
+        return;
+    if(row >= res.size())
+        res.add(root.val);
+    else if(root.val > res.get(row))
+        res.set(row, root.val);
+    findLargestValues(root.left, row + 1, res);
+    findLargestValues(root.right, row + 1, res);
+}
