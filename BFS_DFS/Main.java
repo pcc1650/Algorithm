@@ -182,3 +182,25 @@ public String decodeString(String s) {
     }
     return result.pop();
 }
+// 547
+public int findCircleNum(int[][] M) {
+    int count = 0;
+    boolean[] flags = new boolean[M.length];
+    for(int i = 0; i < M.length; i++) {
+        if(flags[i])
+            continue;
+        findFriends(i, flags, M);
+        count += 1;
+    }
+    return count;
+}
+private void findFriends(int start, boolean[] flags, int[][] M) {
+    for(int i = 0; i < M.length; i++) {
+        if(start == i || flags[i])
+            continue;
+        if(M[start][i] == 1){
+            flags[i] = true;
+            findFriends(i, flags, M);
+        }
+    }
+}
