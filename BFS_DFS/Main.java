@@ -259,23 +259,11 @@ public int findBottomLeftValue(TreeNode root) {
 }
 // 129
 public int sumNumbers(TreeNode root) {
-    List<Integer> leaves = new LinkedList<>();
-    String rootString = "";
-    calculateSum(root, rootString, leaves);
-    int res = 0;
-    for(int i = 0; i < leaves.size(); i++)
-        res += leaves.get(i);
-    return res;
+    return sum(root, 0);
 }
-private void calculateSum(TreeNode root, String str, List<Integer> leaves) {
-    if(root == null)
-        return;
-    String tempStr = Integer.toString(root.val);
-    str += tempStr;
-    if(root.left == null && root.right == null) {
-        int temp = Integer.parseInt(str);
-        leaves.add(temp);
-    }
-    calculateSum(root.left, str, leaves);
-    calculateSum(root.right, str, leaves);
+
+public int sum(TreeNode n, int s){
+    if (n == null) return 0;
+    if (n.right == null && n.left == null) return s*10 + n.val;
+    return sum(n.left, s*10 + n.val) + sum(n.right, s*10 + n.val);
 }
