@@ -220,3 +220,21 @@ private void findLargestValues(TreeNode root, int row, List<Integer> res) {
     findLargestValues(root.left, row + 1, res);
     findLargestValues(root.right, row + 1, res);
 }
+//513
+public int findBottomLeftValue(TreeNode root) {
+    int[] res = new int[]{0, 0};
+    res[0] = 1;
+    res[1] = root.val;
+    findValue(root, 1, res);
+    return res[1];
+}
+private void findValue(TreeNode root, int row, int[] res) {
+    if(root == null)
+        return;
+    if(root.left == null && row > res[0]) {
+        res[0] = row;
+        res[1] = root.val;
+    }
+    findValue(root.left, row + 1, res);
+    findValue(root.right, row + 1, res);
+}
