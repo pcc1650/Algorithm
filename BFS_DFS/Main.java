@@ -267,3 +267,24 @@ public int sum(TreeNode n, int s){
     if (n.right == null && n.left == null) return s*10 + n.val;
     return sum(n.left, s*10 + n.val) + sum(n.right, s*10 + n.val);
 }
+// 199
+public List<Integer> rightSideView(TreeNode root) {
+    List<Integer> res = new LinkedList<>();
+    Queue<TreeNode> queue = new LinkedList<>();
+    if(root == null)
+        return res;
+    queue.add(root);
+    while(!queue.isEmpty()) {
+        int size = queue.size();
+        for(int i = 0; i < size; i++) {
+            TreeNode temp = queue.poll();
+            if(i == size - 1)
+                res.add(temp.val);
+            if(temp.left != null)
+                queue.add(temp.left);
+            if(temp.right != null)
+                queue.add(temp.right);
+        }
+    }
+    return res;
+}
