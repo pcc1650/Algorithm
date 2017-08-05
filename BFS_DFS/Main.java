@@ -288,3 +288,41 @@ public List<Integer> rightSideView(TreeNode root) {
     }
     return res;
 }
+// 200
+public int numIslands(char[][] grid) {
+    if(grid.length == 0 || grid[0].length == 0)
+        return 0;
+    int res = 0;
+    boolean[][] flags = new boolean[grid.length][grid[0].length];
+    for(int i = 0; i < grid.length; i++) {
+        for(int j = 0; j < grid[0].length; j++) {
+            if(flags[i][j]){
+                continue;
+            }
+            if(grid[i][j] == '1'){
+                res += 1;
+                flags[i][j] = true;
+                identifyIsland(i, j, grid, flags);
+            }
+        }
+    }
+    return res;
+}
+private void identifyIsland(int i, int j, char[][] grid, boolean[][] flags) {
+    if(i - 1 >= 0 && grid[i - 1][j] == '1' && !flags[i - 1][j]) {
+        flags[i - 1][j] = true;
+        identifyIsland(i - 1, j, grid, flags);
+    }
+    if(i + 1 < grid.length && grid[i + 1][j] == '1' && !flags[i + 1][j]) {
+        flags[i + 1][j] = true;
+        identifyIsland(i + 1, j, grid, flags);
+    }
+    if(j - 1 >= 0 && grid[i][j - 1] == '1' && !flags[i][j - 1]) {
+        flags[i][j - 1] = true;
+        identifyIsland(i, j - 1, grid, flags);
+    }
+    if(j + 1 < grid[0].length && grid[i][j + 1] == '1' && !flags[i][j + 1]) {
+        flags[i][j + 1] = true;
+        identifyIsland(i, j + 1, grid, flags);
+    }
+}
