@@ -326,3 +326,22 @@ private void identifyIsland(int i, int j, char[][] grid, boolean[][] flags) {
         identifyIsland(i, j + 1, grid, flags);
     }
 }
+// 257
+public List<String> binaryTreePaths(TreeNode root) {
+    List<String> res = new LinkedList<>();
+    String path = "";
+    findAllPaths(root, path, res);
+    return res;
+}
+private void findAllPaths(TreeNode root, String path, List<String> res) {
+    if(root == null) return;
+    if(root.left == null && root.right == null) {
+        String finalPath = path + root.val;
+        res.add(finalPath);
+        return;
+    }
+    String leftPath = path + root.val + "->";
+    String rightPath = path + root.val + "->";
+    findAllPaths(root.left, leftPath, res);
+    findAllPaths(root.right, rightPath, res);
+}
