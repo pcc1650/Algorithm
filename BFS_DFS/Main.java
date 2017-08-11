@@ -345,3 +345,42 @@ private void findAllPaths(TreeNode root, String path, List<String> res) {
     findAllPaths(root.left, leftPath, res);
     findAllPaths(root.right, rightPath, res);
 }
+// 112 
+public boolean hasPathSum(TreeNode root, int sum) {
+    if(root == null)
+        return false;
+    if(root.left == null && root.right == null && sum == root.val)
+        return true;
+    return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+}
+// 113 
+public List<List<Integer>> pathSum(TreeNode root, int sum) {
+    List<List<Integer>> res = new LinkedList<>();
+    if(root == null)
+        return res;
+    List<Integer> path = new LinkedList<>();
+    calculate(root, sum, path, res);
+    return res;
+}
+private void calculate(TreeNode root, int sum, List<Integer> path, List<List<Integer>> res) {
+    if(root.left == null && root.right == null) {
+        if(root.val == sum){
+            path.add(root.val);
+            List<Integer> newPath = new LinkedList<>(path);
+            res.add(newPath);
+            path.remove(path.size() - 1);
+        }
+    }
+    else{
+        if(root.left != null){
+            path.add(root.val);
+            calculate(root.left, sum - root.val, path, res);
+            path.remove(path.size() - 1);
+        }
+        if(root.right != null){
+            path.add(root.val);
+            calculate(root.right, sum - root.val, path, res);
+            path.remove(path.size() - 1);
+        }
+    }
+}
