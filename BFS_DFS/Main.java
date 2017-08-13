@@ -468,3 +468,14 @@ private boolean symmetric(TreeNode left, TreeNode right) {
         return false;
     return symmetric(left.left, right.right) && symmetric(left.right, right.left);
 }
+// 98
+public boolean isValidBST(TreeNode root) {
+    return isBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+}
+private boolean isBST(TreeNode root, long min, long max) {
+    if(root == null)
+        return true;
+    if(root.val >= max || root.val <= min)
+        return false;
+    return isBST(root.left, min, root.val) && isBST(root.right, root.val, max);
+}
