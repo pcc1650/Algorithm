@@ -384,3 +384,18 @@ private void calculate(TreeNode root, int sum, List<Integer> path, List<List<Int
         }
     }
 }
+// 108
+public TreeNode sortedArrayToBST(int[] nums) {
+    if(nums==null || nums.length == 0)
+        return null;
+    int len = nums.length;
+    return toBST(nums, 0, len - 1);
+}
+private TreeNode toBST(int[] nums, int start, int end) {
+    if(start > end)
+        return null;
+    TreeNode root = new TreeNode(nums[(start + end) / 2]);
+    root.left = toBST(nums, start, (start + end) / 2 - 1);
+    root.right = toBST(nums, (start + end) / 2 + 1, end);
+    return root;
+}
