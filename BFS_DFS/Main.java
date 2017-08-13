@@ -399,3 +399,44 @@ private TreeNode toBST(int[] nums, int start, int end) {
     root.right = toBST(nums, (start + end) / 2 + 1, end);
     return root;
 }
+// 105
+public TreeNode buildTree(int[] preorder, int[] inorder) {
+   if(preorder == null || preorder.length == 0 || inorder == null || inorder.length == 0)
+       return null;
+   return binaryTree(preorder, inorder);
+}
+private TreeNode binaryTree(int[] preorder, int[] inorder) {
+   if(preorder.length == 0 || inorder.length == 0)
+       return null;
+   TreeNode root = new TreeNode(preorder[0]);
+   int index = -1;
+   for(int i = 0 ; i < inorder.length; i++)
+       if(inorder[i] == preorder[0])
+           index = i;
+   int[] leftInOrder = Arrays.copyOfRange(inorder, 0, index);
+   int[] leftPreOrder = Arrays.copyOfRange(preorder, 1, index + 1);
+   int[] rightInOrder = Arrays.copyOfRange(inorder, index + 1, inorder.length);
+   int[] rightPreOrder = Arrays.copyOfRange(preorder, index + 1, preorder.length);
+   root.left = binaryTree(leftPreOrder, leftInOrder);
+   root.right = binaryTree(rightPreOrder, rightInOrder);
+   return root;
+}
+// 106
+public TreeNode buildTree(int[] inorder, int[] postorder) {
+    if(inorder.length == 0 || postorder.length == 0)
+        return null;
+    return toBinaryTree(inorder, postorder, 0, inorder.length - 1, 0, postorder.length - 1);
+}
+private TreeNode toBinaryTree(int[] inorder, int[] postorder, int inStart, int inEnd, int postStart, int postEnd){
+    if(inStart > inEnd || postStart > postEnd)
+        return null;
+    TreeNode root = new TreeNode(postorder[postEnd]);
+    int index = -1;
+    for(int i = 0; i < inorder.length; i++) {
+        if(inorder[i] == postorder[postEnd])
+            index = i;
+    }
+    root.left = toBinaryTree(inorder, postorder, inStart, index - 1, postStart, postStart + index - inStart - 1);
+    root.right = toBinaryTree(inorder, postorder, index + 1, inEnd, postStart + index - inStart, postEnd - 1);
+    return root;
+}
