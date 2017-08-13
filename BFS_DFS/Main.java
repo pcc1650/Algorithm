@@ -455,3 +455,16 @@ private void findMaxDepth(TreeNode root, int[] result, int currDep) {
     findMaxDepth(root.left, result, currDep);
     findMaxDepth(root.right, result, currDep);
 }
+// 101
+public boolean isSymmetric(TreeNode root) {
+    if(root == null)
+        return true;
+    return symmetric(root.left, root.right);
+}
+private boolean symmetric(TreeNode left, TreeNode right) {
+    if(left == null || right == null)
+        return left == right;
+    if(left.val != right.val)
+        return false;
+    return symmetric(left.left, right.right) && symmetric(left.right, right.left);
+}
