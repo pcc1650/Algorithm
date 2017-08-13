@@ -440,3 +440,18 @@ private TreeNode toBinaryTree(int[] inorder, int[] postorder, int inStart, int i
     root.right = toBinaryTree(inorder, postorder, index + 1, inEnd, postStart + index - inStart, postEnd - 1);
     return root;
 }
+// 104
+public int maxDepth(TreeNode root) {
+    int[] result = new int[1];
+    findMaxDepth(root, result, 0);
+    return result[0];
+}
+private void findMaxDepth(TreeNode root, int[] result, int currDep) {
+    if(root == null)
+        return ;
+    currDep += 1;
+    if(currDep > result[0])
+        result[0] = currDep;
+    findMaxDepth(root.left, result, currDep);
+    findMaxDepth(root.right, result, currDep);
+}
