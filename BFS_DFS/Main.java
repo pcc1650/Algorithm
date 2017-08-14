@@ -551,3 +551,10 @@ private void findMinDepth(TreeNode root, int curr, int[] result) {
     if(root.right != null)
         findMinDepth(root.right, curr + 1, result);
 }
+// 111 more elegant
+public static int minDepth(TreeNode root) {
+	if (root == null)	return 0;
+	if (root.left == null)	return minDepth(root.right) + 1;
+	if (root.right == null) return minDepth(root.left) + 1;
+	return Math.min(minDepth(root.left),minDepth(root.right)) + 1;
+}
