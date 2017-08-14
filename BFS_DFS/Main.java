@@ -531,3 +531,23 @@ private int dfs(TreeNode root) {
         return -1;
     return Math.max(left, right) + 1;
 }
+// 111
+public int minDepth(TreeNode root) {
+    if(root == null)
+        return 0;
+    int[] result = new int[1];
+    result[0] = Integer.MAX_VALUE;
+    findMinDepth(root, 1, result);
+    return result[0];
+}
+private void findMinDepth(TreeNode root, int curr, int[] result) {
+    if(root.left == null && root.right == null)
+        if(curr < result[0]){
+            result[0] = curr;
+            return ;
+        }
+    if(root.left != null)
+        findMinDepth(root.left, curr + 1, result);
+    if(root.right != null)
+        findMinDepth(root.right, curr + 1, result);
+}
