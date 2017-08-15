@@ -558,3 +558,16 @@ public static int minDepth(TreeNode root) {
 	if (root.right == null) return minDepth(root.left) + 1;
 	return Math.min(minDepth(root.left),minDepth(root.right)) + 1;
 }
+// 114
+public class Solution {
+    TreeNode prev = null;
+    public void flatten(TreeNode root) {
+        if(root == null)
+            return;
+        flatten(root.right);
+        flatten(root.left);
+        root.right = prev;
+        root.left = null;
+        prev = root;
+    }
+}
