@@ -571,3 +571,28 @@ public class Solution {
         prev = root;
     }
 }
+// 116 117
+public void connect(TreeLinkNode root) {
+    if(root == null)
+        return;
+    Queue<TreeLinkNode> queue = new LinkedList<>();
+    queue.add(root);
+    while(!queue.isEmpty()){
+        int len = queue.size();
+        Stack<TreeLinkNode> stack = new Stack<>();
+        for(int i = 0; i < len; i++) {
+            TreeLinkNode node = queue.poll();
+            if(node.left != null)
+                queue.add(node.left);
+            if(node.right != null)
+                queue.add(node.right);
+            stack.push(node);
+        }
+        TreeLinkNode last = null;
+        while(!stack.isEmpty()){
+            TreeLinkNode node = stack.pop();
+            node.next = last;
+            last = node;
+        }
+    }
+}
