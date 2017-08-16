@@ -596,3 +596,35 @@ public void connect(TreeLinkNode root) {
         }
     }
 }
+// 117
+public void connect(TreeLinkNode root) {
+    TreeLinkNode head = null;
+    TreeLinkNode prev = null;
+    TreeLinkNode cur = root;
+    while(cur != null) {
+        while(cur != null) {
+            if(cur.left != null) {
+                if(prev == null) {
+                    head = cur.left;
+                }
+                else {
+                    prev.next = cur.left;
+                }
+                prev = cur.left;
+            }
+            if(cur.right != null) {
+                if(prev == null) {
+                    head = cur.right;
+                }
+                else {
+                    prev.next = cur.right;
+                }
+                prev = cur.right;
+            }
+            cur = cur.next;
+        }
+        cur = head;
+        head = null;
+        prev = null;
+    }
+}
