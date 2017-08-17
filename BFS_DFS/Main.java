@@ -628,3 +628,22 @@ public void connect(TreeLinkNode root) {
         prev = null;
     }
 }
+// 124
+public class Solution {
+    int maxValue;
+    public int maxPathSum(TreeNode root) {
+        if(root == null)
+            return 0;
+        maxValue = Integer.MIN_VALUE;
+        findMaxValue(root);
+        return maxValue;
+    }
+    private int findMaxValue(TreeNode root) {
+        if(root == null)
+            return 0;
+        int left = Math.max(0, findMaxValue(root.left));
+        int right = Math.max(0, findMaxValue(root.right));
+        maxValue = Math.max(maxValue, left + right + root.val);
+        return Math.max(left, right) + root.val;
+    }
+}
