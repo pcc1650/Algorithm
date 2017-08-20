@@ -734,3 +734,22 @@ class Solution {
         return nums;
     }
 }
+// 491
+public List<List<Integer>> findSubsequences(int[] nums) {
+    Set<List<Integer>> res = new HashSet<>();
+    List<Integer> holder = new LinkedList<>();
+    findSequence(nums, 0, holder, res);
+    List result = new LinkedList(res);
+    return result;
+}
+private void findSequence(int[] nums, int index, List<Integer> holder, Set<List<Integer>> res) {
+    if(holder.size() >= 2)
+        res.add(new LinkedList(holder));
+    for(int i = index; i < nums.length; i++) {
+        if(holder.size() == 0 || holder.get(holder.size() - 1) <= nums[i]) {
+            holder.add(nums[i]);
+            findSequence(nums, i + 1, holder, res);
+            holder.remove(holder.size() - 1);
+        }
+    }
+}
