@@ -691,3 +691,46 @@ class Solution {
         route.add(0, airport);
     }
 }
+// 473
+class Solution {
+    public boolean makesquare(int[] nums) {
+        if(nums == null || nums.length < 4)
+            return false;
+        int sum = 0;
+        Arrays.sort(nums);
+        int[] newNums = reverse(nums);
+        for(int num : newNums)
+            sum += num;
+        if(sum % 4 != 0)
+            return false;
+        return dfs(newNums, new int[4], 0, sum / 4);
+    }
+    private boolean dfs(int[] nums, int[] sum, int index, int target) {
+        if(index == nums.length) {
+            if(sum[0] == target && sum[1] == target && sum[2] == target)
+                return true;
+            return false;
+        }
+        for(int i = 0; i < 4; i++) {
+            if(nums[index] + sum[i] > target)
+                continue;
+            sum[i] += nums[index];
+            if(dfs(nums, sum, index + 1, target))
+                return true;
+            sum[i] -= nums[index];
+        }
+        return false;
+    }
+    private int[] reverse(int[] nums) {
+        int start = 0;
+        int end = nums.length - 1;
+        while(start < end) {
+            int temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+            start += 1;
+            end -= 1;
+        }
+        return nums;
+    }
+}
