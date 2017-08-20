@@ -667,3 +667,27 @@ private UndirectedGraphNode cloneTheGraph(UndirectedGraphNode node, HashMap<Inte
         return clone;
     }
 }
+// 332
+class Solution {
+    HashMap<String, PriorityQueue<String>> targets = new HashMap<>();
+    List<String> route = new LinkedList<>();
+    public List<String> findItinerary(String[][] tickets) {
+        for(String[] ticket : tickets){
+            if(targets.containsKey(ticket[0])){
+                targets.get(ticket[0]).add(ticket[1]);
+            }
+            else{
+                PriorityQueue<String> tempPQ = new PriorityQueue<>();
+                tempPQ.add(ticket[1]);
+                targets.put(ticket[0], tempPQ);
+            }
+        }
+        DFS("JFK");
+        return route;
+    }
+    private void DFS(String airport) {
+        while(targets.containsKey(airport) && ! targets.get(airport).isEmpty())
+            DFS(targets.get(airport).poll());
+        route.add(0, airport);
+    }
+}
