@@ -784,3 +784,53 @@ public int[][] updateMatrix(int[][] matrix) {
     }
     return matrix;
 }
+// 638
+public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
+    return shopping(price, special, needs);
+}
+private int shopping(List<Integer> price, List<List<Integer>> special, List<Integer> needs){
+    int j = 0;
+    int res = noOffers(price, needs);
+    for(List<Integer> s : special) {
+        List<Integer> newNeeds = new LinkedList<>(needs);
+        for(j = 0; j < needs.size(); j++) {
+            int diff = needs.get(j) - s.get(j);
+            if(diff < 0)
+                break;
+            newNeeds.set(j, diff);
+        }
+        if(j == needs.size()){
+            res = Math.min(res, s.get(s.size() - 1) + shopping(price, special, newNeeds));
+        }
+    }
+    return res;
+}
+private int noOffers(List<Integer> prices, List<Integer> needs) {
+    int res = 0;
+    for(int i = 0; i < prices.size(); i++)
+        res += prices.get(i) * needs.get(i);
+    return res;
+}
+// 576
+class Solution {
+    int M = 1000000007;
+    public int findPaths(int m, int n, int N, int i, int j) {
+        int[][][] memos = new int[m][n][N + 1];
+        for(int[][] l : memos) {
+            for(int[] sl : l){
+                Arrays.fill(sl, -1);
+            }
+        }
+        return findPaths(m, n, N, i, j, memos);
+    }
+    private int findPaths(int m, int n, int N, int i, int j, int[][][] memos) {
+        if(i < 0 || j < 0 || i == m || j == n)
+            return 1;
+        if(N == 0)
+            return 0;
+        if(memos[i][j][N] >= 0)
+            return memos[i][j][N];
+        memos[i][j][N] = ((findPaths(m,n,N-1,i-1,j,memos)+findPaths(m,n,N-1,i,j + 1,memos))%M+(findPaths(m,n,N-1,i,j-1,memos)+findPaths(m,n,N-1,i + 1,j,memos))%M)%M;
+        return memos[i][j][N];
+    }
+}
