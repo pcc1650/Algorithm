@@ -855,3 +855,43 @@ private int removeBoxesSub(int[] boxes, int i, int j, int k, int[][][] dp) {
     dp[i][j][k] = res;
     return res;
 }
+// 488
+class Solution {
+    int MAXCOUNT = 6;
+    public int findMinStep(String board, String hand) {
+        int[] handCount = new int[26];
+        for(int i = 0; i < hand.length(); i++)
+            handCount[hand.charAt(i) - 'A'] += 1;
+        int res = helper(board + "#", handCount);
+        return res == MAXCOUNT ? -1 : res;
+    }
+    private int helper(String s, int[] h) {
+        s = removeConsecutive(s);
+        if(s.equals("#"))
+            return 0;
+        int res = MAXCOUNT, need = 0;
+        for(int i = 0, j = 0; j < s.length(); j++) {
+            if(s.charAt(i) == s.charAt(j))
+                continue;
+            need = 3 - (j - i);
+            if(h[s.charAt(i) - 'A'] >= need){
+                h[s.charAt(i) - 'A'] -= need;
+                res = Math.min(res, need + helper(s.substring(0, i) + s.substring(j), h));
+                h[s.charAt(i) - 'A'] += need;
+            }
+            i = j;
+        }
+        return res;
+    }
+    private String removeConsecutive(String s) {
+        for(int i = 0, j = 0; j < s.length(); j++) {
+            if(s.charAt(i) == s.charAt(j))
+                continue;
+            if(j - i >= 3)
+                return removeConsecutive(s.substring(0, i) + s.substring(j));
+            else
+                i = j;
+        }
+        return s;
+    }
+}
