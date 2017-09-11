@@ -973,3 +973,26 @@ private int dfs(int[][] matrix, int i, int j, int m, int n, int[][] dirs, int[][
     memo[i][j] = max;
     return max;
 }
+// 102
+public List<List<Integer>> levelOrder(TreeNode root) {
+    List<List<Integer>> res = new LinkedList<>();
+    Queue<TreeNode> queue = new LinkedList<>();
+    if(root == null)
+        return res;
+    queue.add(root);
+    while(!queue.isEmpty()) {
+        List<Integer> ans = new LinkedList<>();
+        int size = queue.size();
+        for(int i = 0; i < size; i++) {
+            TreeNode tree = queue.poll();
+            ans.add(tree.val);
+            if(tree.left != null)
+                queue.add(tree.left);
+            if(tree.right != null)
+                queue.add(tree.right);
+        }
+		// res.add(0, ans) if from bottom
+        res.add(ans);
+    }
+    return res;
+}
