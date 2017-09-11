@@ -996,3 +996,30 @@ public List<List<Integer>> levelOrder(TreeNode root) {
     }
     return res;
 }
+// 103
+public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+    List<List<Integer>> res = new LinkedList<>();
+    Queue<TreeNode> queue = new LinkedList<>();
+    int zag = 0;
+    if(root == null)
+        return res;
+    queue.add(root);
+    while(!queue.isEmpty()) {
+        List<Integer> ans = new LinkedList<>();
+        int size = queue.size();
+        for(int i = 0; i < size; i++) {
+            TreeNode tree = queue.poll();
+            if(zag % 2 == 1)
+                ans.add(0, tree.val);
+            else
+                ans.add(tree.val);
+            if(tree.left != null)
+                queue.add(tree.left);
+            if(tree.right != null)
+                queue.add(tree.right);
+        }
+        res.add(ans);
+        zag = zag == 0 ? 1 : 0;
+    }
+    return res;
+}
