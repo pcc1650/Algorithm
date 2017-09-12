@@ -1023,3 +1023,52 @@ public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
     }
     return res;
 }
+// 130
+public void solve(char[][] board) {
+    if(board == null || board.length == 0 || board[0].length == 0)
+        return;
+    int m = board.length, n = board[0].length;
+    Queue<int[]> queue = new LinkedList<>();
+    for(int i = 0; i < m; i++){
+        if(board[i][0] == 'O'){
+            queue.add(new int[]{i, 0});
+        }
+        if(board[i][n - 1] == 'O'){
+            queue.add(new int[]{i, n - 1});
+        }
+    }
+    for(int j = 0; j < n; j++) {
+        if(board[0][j] == 'O'){
+            queue.add(new int[]{0, j});
+        }
+        if(board[m - 1][j] == 'O'){
+            queue.add(new int[]{m - 1, j});
+        }
+    }
+    while(!queue.isEmpty()){
+        int[] point = queue.poll();
+        int i = point[0];
+        int j = point[1];
+        if(board[i][j] != 'O')
+            continue;
+        else{
+            board[i][j] = 'Y';
+            if(i - 1 >= 0 && board[i - 1][j] == 'O')
+                queue.add(new int[]{i - 1, j});
+            if(i + 1 < m && board[i + 1][j] == 'O')
+                queue.add(new int[]{i + 1, j});
+            if(j - 1 >= 0 && board[i][j - 1] == 'O')
+                queue.add(new int[]{i, j - 1});
+            if(j + 1 < n && board[i][j + 1] == 'O')
+                queue.add(new int[]{i, j + 1});
+        }
+    }
+    for(int i = 0; i < m; i++) {
+        for(int j = 0; j < n; j++) {
+            if(board[i][j] == 'O')
+                board[i][j] = 'X';
+            if(board[i][j] == 'Y')
+                board[i][j] = 'O';
+        }
+    }
+}
