@@ -1072,3 +1072,38 @@ public void solve(char[][] board) {
         }
     }
 }
+// 310
+// ArrayList is faster than LinkedList in this case
+public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+    if(n == 1){
+        List<Integer> res = new ArrayList<>();
+        res.add(0);
+        return res;
+    }
+    List<List<Integer>> list = new ArrayList<>();
+    for(int i = 0; i < n; i++)
+        list.add(new ArrayList<Integer>());
+    for(int i = 0; i < edges.length; i++) {
+        int[] edge = edges[i];
+        list.get(edge[0]).add(edge[1]);
+        list.get(edge[1]).add(edge[0]);
+    }
+    List<Integer> leaves = new ArrayList<>();
+    for(int i = 0; i < n; i++) {
+        if(list.get(i).size() == 1)
+            leaves.add(i);
+    }
+    while(n > 2){
+        n -= leaves.size();
+        List<Integer> newLeaves = new ArrayList<>();
+        for(int i = 0; i < leaves.size(); i++) {
+            int leave = leaves.get(i);
+            int other = list.get(leave).get(0);
+            list.get(other).removeIf(p -> p == leave);
+            if(list.get(other).size() == 1)
+                newLeaves.add(other);
+        }
+        leaves = newLeaves;
+    }
+    return leaves;
+}
