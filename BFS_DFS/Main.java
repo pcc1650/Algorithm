@@ -1107,3 +1107,48 @@ public List<Integer> findMinHeightTrees(int n, int[][] edges) {
     }
     return leaves;
 }
+public int trapRainWater(int[][] heightMap) {
+    class Cell {
+        int x;
+        int y;
+        int h;
+        public Cell(int x, int y, int h){
+            this.x = x;
+            this.y = y;
+            this.h = h;
+        }
+    }
+    if(heightMap == null || heightMap.length == 0 || heightMap[0].length == 0)
+        return 0;
+    int rows = heightMap.length;
+    int cols = heightMap[0].length;
+    Queue<Cell> minHeap = new PriorityQueue<>(rows * cols, (c1, c2) -> c1.h - c2.h);
+    boolean[][] visited = new boolean[rows][cols];
+    for(int i = 0; i < rows; i++) {
+        visited[i][0] = true;
+        visited[i][cols - 1] = true;
+        minHeap.offer(new Cell(i, 0, heightMap[i][0]));
+        minHeap.offer(new Cell(i, cols - 1, heightMap[i][cols - 1]));
+    }
+    for(int i = 0; i < cols; i++) {
+        visited[0][i] = true;
+        visited[rows - 1][i] = true;
+        minHeap.offer(new Cell(0, i, heightMap[0][i]));
+        minHeap.offer(new Cell(rows - 1, i, heightMap[rows - 1][i]));
+    }
+    int[][] dirs = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    int res = 0;
+    while(!minHeap.isEmpty()){
+        Cell cell = minHeap.poll();
+        for(int[] dir: dirs) {
+            int row = cell.x + dir[0];
+            int col = cell.y + dir[1];
+            if(row >= 0 && row < rows && col >= 0 && col < cols && !visited[row][col]){
+                visited[row][col] = true;
+                res += Math.max(0, cell.h - heightMap[row][col]);
+                minHeap.offer(new Cell(row, col, Math.max(heightMap[row][col], cell.h)));
+            }
+        }
+    }
+    return res;
+}
