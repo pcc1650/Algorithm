@@ -44,3 +44,20 @@ public class Main {
         System.out.println(m.splitArray(nums, n));
     }
 }
+// add 167
+public int[] twoSum(int[] numbers, int target) {
+    int[] res = new int[2];
+    int left = 0;
+    int right = numbers.length - 1;
+    while(left <= right) {
+        int total = numbers[left] + numbers[right];
+        if(total == target)
+            return new int[]{left + 1, right + 1};
+        else if(total > target){
+            right -= 1;
+        }
+        else 
+            left += 1;
+    }
+    return res;
+}
