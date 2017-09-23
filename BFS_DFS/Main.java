@@ -1203,3 +1203,71 @@ private int minStep(List<List<Integer>> forest, int[] start, int[] tree, int m, 
     }
     return -1;
 }
+// add 475
+public int findRadius(int[] houses, int[] heaters) {
+    int res = 0;
+    Arrays.sort(heaters);
+    for(int house: houses) {
+        int index = Arrays.binarySearch(heaters, house);
+        if(index < 0) {
+            index = -(index + 1);
+        }
+        int dist1 = index - 1 >= 0 ? house - heaters[index - 1] : Integer.MAX_VALUE;
+        int dist2 = index < heaters.length ? heaters[index] - house: Integer.MAX_VALUE;
+        res = Math.max(res, Math.min(dist1, dist2));
+    }
+    return res;
+}
+// 441
+public int arrangeCoins(int n) {
+    int left = 0;
+    int right = n;
+    while(left <= right){
+        long mid = left + (right - left) / 2;
+        if((1 + mid) * mid >>> 1 <= n && (2 + mid) * (mid + 1) >>> 1 > n)
+            return (int)mid;
+        else if((1 + mid) * mid >>> 1 <= n)
+            left = (int)mid + 1;
+        else 
+            right = (int)mid - 1;
+    }
+    return -1;
+}
+// 69
+public int mySqrt(int x) {
+    if(x == 0)
+        return 0;
+    if(x == 1)
+        return 1;
+    int left = 1; 
+    int right = x / 2;
+    while(left <= right) {
+        long mid = left + (right - left) / 2;
+        if(mid * mid <= x && (mid + 1) * (mid + 1) > x)
+            return (int)mid;
+        else if(mid * mid < x) {
+            left = (int)mid + 1;
+        }
+        else
+            right = (int)mid - 1;
+    }
+    return -1;
+}
+// 367
+public boolean isPerfectSquare(int num) {
+    if(num == 1)
+        return true;
+    int left = 1;
+    int right = num / 2;
+    while(left <= right) {
+        long mid = left + (right - left) / 2;
+        if(mid * mid == num)
+            return true;
+        else if(mid * mid > num) {
+            right = (int)mid - 1;
+        }
+        else
+            left = (int)mid + 1;
+    }
+    return false;
+}
