@@ -67,7 +67,7 @@ public boolean canFinish(int numCourses, int[][] prerequisites) {
     for(int i = 0; i < numCourses; i++)
         if(inDegree[i] == 0)
             courses.offer(i);
-        
+
     while(!courses.isEmpty()) {
         int course = courses.poll();
         count += 1;
@@ -107,7 +107,7 @@ private boolean hasCycle(int index, List<Integer>[] succs, boolean[] partialFlag
     partialFlag[index] = true;
     for(int i = 0; i < succs[index].size(); i++) {
         // Should have a deep copy of current state
-        boolean[] flags = Arrays.copyOf(partialFlag, partialFlag.length);          
+        boolean[] flags = Arrays.copyOf(partialFlag, partialFlag.length);
         if(partialFlag[succs[index].get(i)] || hasCycle(succs[index].get(i), succs, flags, globalFlag))
             return true;
     }
@@ -127,12 +127,12 @@ public int[] findOrder(int numCourses, int[][] prerequisites) {
         matrix[pre][suc] = 1;
         inDegree[suc] += 1;
     }
-    
+
     for(int i = 0; i < numCourses; i++) {
         if(inDegree[i] == 0)
             courses.offer(i);
     }
-    
+
     while(!courses.isEmpty()) {
         int course = courses.poll();
         res[index++] = course;
@@ -143,7 +143,7 @@ public int[] findOrder(int numCourses, int[][] prerequisites) {
                     courses.offer(i);
         }
     }
-    
+
     return count == numCourses ? res : new int[0];
 }
 // 394
@@ -345,7 +345,7 @@ private void findAllPaths(TreeNode root, String path, List<String> res) {
     findAllPaths(root.left, leftPath, res);
     findAllPaths(root.right, rightPath, res);
 }
-// 112 
+// 112
 public boolean hasPathSum(TreeNode root, int sum) {
     if(root == null)
         return false;
@@ -353,7 +353,7 @@ public boolean hasPathSum(TreeNode root, int sum) {
         return true;
     return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
 }
-// 113 
+// 113
 public List<List<Integer>> pathSum(TreeNode root, int sum) {
     List<List<Integer>> res = new LinkedList<>();
     if(root == null)
@@ -900,10 +900,10 @@ public int strangePrinter(String s) {
     int n = s.length();
     if(n == 0) return 0;
     int[][] dp = new int[n][n];
-    
+
     for(int i = 0; i < n; i++)
         dp[i][i] = 1;
-    
+
     for(int i = 1; i < n; i++) {
         for(int j = 0; j < n - i; j++){
             dp[j][j + i] = i + 1;
@@ -1202,72 +1202,4 @@ private int minStep(List<List<Integer>> forest, int[] start, int[] tree, int m, 
         step += 1;
     }
     return -1;
-}
-// add 475
-public int findRadius(int[] houses, int[] heaters) {
-    int res = 0;
-    Arrays.sort(heaters);
-    for(int house: houses) {
-        int index = Arrays.binarySearch(heaters, house);
-        if(index < 0) {
-            index = -(index + 1);
-        }
-        int dist1 = index - 1 >= 0 ? house - heaters[index - 1] : Integer.MAX_VALUE;
-        int dist2 = index < heaters.length ? heaters[index] - house: Integer.MAX_VALUE;
-        res = Math.max(res, Math.min(dist1, dist2));
-    }
-    return res;
-}
-// 441
-public int arrangeCoins(int n) {
-    int left = 0;
-    int right = n;
-    while(left <= right){
-        long mid = left + (right - left) / 2;
-        if((1 + mid) * mid >>> 1 <= n && (2 + mid) * (mid + 1) >>> 1 > n)
-            return (int)mid;
-        else if((1 + mid) * mid >>> 1 <= n)
-            left = (int)mid + 1;
-        else 
-            right = (int)mid - 1;
-    }
-    return -1;
-}
-// 69
-public int mySqrt(int x) {
-    if(x == 0)
-        return 0;
-    if(x == 1)
-        return 1;
-    int left = 1; 
-    int right = x / 2;
-    while(left <= right) {
-        long mid = left + (right - left) / 2;
-        if(mid * mid <= x && (mid + 1) * (mid + 1) > x)
-            return (int)mid;
-        else if(mid * mid < x) {
-            left = (int)mid + 1;
-        }
-        else
-            right = (int)mid - 1;
-    }
-    return -1;
-}
-// 367
-public boolean isPerfectSquare(int num) {
-    if(num == 1)
-        return true;
-    int left = 1;
-    int right = num / 2;
-    while(left <= right) {
-        long mid = left + (right - left) / 2;
-        if(mid * mid == num)
-            return true;
-        else if(mid * mid > num) {
-            right = (int)mid - 1;
-        }
-        else
-            left = (int)mid + 1;
-    }
-    return false;
 }
