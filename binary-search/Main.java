@@ -350,7 +350,7 @@ public int findDuplicate(int[] nums) {
             slow = nums[slow];
             fast = nums[fast];
         }
-        return nums[slow];
+        return slow;
     }
     return -1;
 }
