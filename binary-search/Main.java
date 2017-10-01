@@ -308,3 +308,31 @@ public int search(int[] nums, int target) {
     }
     return -1;
 }
+// 34
+public int[] searchRange(int[] nums, int target) {
+    int low = 0, high = nums.length - 1;
+    int[] res = new int[]{-1, -1};
+    if(nums.length == 0)
+        return res;
+    while(low < high){
+        int mid = low + (high - low) / 2;
+        if(nums[mid] < target){
+            low = mid + 1;
+        }
+        else
+            high = mid;
+    }
+    if(nums[low] == target)
+        res[0] = low;
+    low = 0; high = nums.length - 1;
+    while(low < high){
+        int mid = low + (high - low + 1) / 2;
+        if(nums[mid] > target)
+            high = mid - 1;
+        else 
+            low = mid;
+    }
+    if(nums[high] == target)
+        res[1] = high;
+    return res;
+}
