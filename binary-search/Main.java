@@ -281,3 +281,30 @@ public int kthSmallest(int[][] matrix, int k) {
     }
     return low;
 }
+// 33
+public int search(int[] nums, int target) {
+    if(nums.length == 0)
+        return -1;
+    int low = 0, high = nums.length - 1;
+    while(low < high) {
+        int mid = low + (high - low) / 2;
+        if(nums[mid] > nums[high])
+            low = mid + 1;
+        else
+            high = mid;
+    }
+    int rotation = low;
+    low = 0;
+    high = nums.length - 1;
+    while(low <= high){
+        int mid = low + (high - low) / 2;
+        int reMid = (mid + rotation) % nums.length;
+        if(nums[reMid] == target)
+            return reMid;
+        else if(nums[reMid] > target)
+            high = mid - 1;
+        else
+            low = mid + 1;
+    }
+    return -1;
+}
