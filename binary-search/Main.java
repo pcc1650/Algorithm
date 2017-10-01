@@ -336,3 +336,21 @@ public int[] searchRange(int[] nums, int target) {
         res[1] = high;
     return res;
 }
+// 287 two pointers method
+public int findDuplicate(int[] nums) {
+    if(nums.length > 1){
+        int slow = nums[0];
+        int fast = nums[nums[0]];
+        while(slow != fast){
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        }
+        fast = 0;
+        while(slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        return nums[slow];
+    }
+    return -1;
+}
