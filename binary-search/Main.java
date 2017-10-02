@@ -370,3 +370,21 @@ public int findDuplicate(int[] nums) {
     }
     return low;
 }
+// 690
+public int getImportance(List<Employee> employees, int id) {
+    int[] res = new int[]{0};
+    countImportance(employees, id, res);
+    return res[0];
+}
+private void countImportance(List<Employee> employees, int id, int[] res) {
+    for(int i = 0; i < employees.size(); i++) {
+        Employee e = employees.get(i);
+        if(e.id == id){
+            res[0] += e.importance;
+            for(int j = 0; j < e.subordinates.size(); j++) {
+                countImportance(employees, e.subordinates.get(j), res);
+            }
+            break;
+        }
+    }
+}
