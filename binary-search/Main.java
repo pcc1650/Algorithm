@@ -388,3 +388,20 @@ private void countImportance(List<Employee> employees, int id, int[] res) {
         }
     }
 }
+// 690 hashtable
+public int getImportance(List<Employee> employees, int id) {
+    int[] res = new int[]{0};
+    HashMap<Integer, Employee> map = new HashMap<>();
+    for(Employee e: employees){
+        map.put(e.id, e);
+    }
+    countImportance(map, id, res);
+    return res[0];
+}
+private void countImportance(HashMap<Integer, Employee> map, int id, int[] res) {
+    Employee e = map.get(id);
+    res[0] += e.importance;
+    for(int newId : e.subordinates){
+        countImportance(map, newId, res);
+    }
+}
