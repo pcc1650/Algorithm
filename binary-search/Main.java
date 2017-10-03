@@ -405,3 +405,26 @@ private void countImportance(HashMap<Integer, Employee> map, int id, int[] res) 
         countImportance(map, newId, res);
     }
 }
+// 658
+public List<Integer> findClosestElements(int[] arr, int k, int x) {
+    int low = 0, high = arr.length - 1;
+    List<Integer> res = new LinkedList<>();
+    while(low < high) {
+        int mid = low + (high - low) / 2;
+        if(arr[mid] < x)
+            low = mid + 1;
+        else
+            high = mid;
+    }
+    int i = low - 1, j = low;
+    while(k-- > 0) {
+        if(i < 0 || (j < arr.length && Math.abs(arr[i] - x) > Math.abs(arr[j] - x)))
+            j += 1;
+        else
+            i -= 1;
+    }
+    i += 1;
+    for(; i < j; i++)
+        res.add(arr[i]);
+    return res;
+}
