@@ -428,3 +428,28 @@ public List<Integer> findClosestElements(int[] arr, int k, int x) {
         res.add(arr[i]);
     return res;
 }
+// 74
+public boolean searchMatrix(int[][] matrix, int target) {
+    if(matrix.length == 0 || matrix[0].length == 0)
+        return false;
+    int m = matrix.length, n = matrix[0].length;
+    int low = 0, high = m - 1;
+    while(low < high) {
+        int mid = low + (high - low) / 2;
+        if(matrix[mid][n - 1] < target)
+            low = mid + 1;
+        else high = mid;
+    }
+    int row = low;
+    low = 0; high = n - 1;
+    while(low <= high) {
+        int mid = low + (high - low) / 2;
+        if(matrix[row][mid] == target)
+            return true;
+        else if(matrix[row][mid] < target)
+            low = mid + 1;
+        else
+            high = mid - 1;
+    }
+    return false;
+}
