@@ -468,3 +468,19 @@ public boolean searchMatrix(int[][] matrix, int target) {
     }
     return false;
 }
+// 275
+public int hIndex(int[] citations) {
+    if(citations.length == 0)
+        return 0;
+    int low = 0, high = citations.length - 1;
+    while(low <= high) {
+        int mid = low + (high - low) / 2;
+        if(citations[mid] == citations.length - mid)   
+            return citations.length - mid;
+        else if(citations[mid] > citations.length - mid)
+            high = mid - 1;
+        else
+            low = mid + 1;
+    }
+    return citations.length - high - 1;
+}
