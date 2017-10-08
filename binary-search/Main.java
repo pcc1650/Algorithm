@@ -507,3 +507,30 @@ public int search(int[] nums, int target) {
     }
     return -1;
 }
+// 81 
+public boolean search(int[] nums, int target) {
+    if(nums.length == 0)
+        return false;
+    int low = 0, high = nums.length - 1;
+    while(low <= high) {
+        int mid = low + (high - low) / 2;
+        if(nums[mid] == target) return true;
+        if(nums[low] < nums[mid]){
+            if(target < nums[mid] && target >= nums[low])
+                high = mid - 1;
+            else
+                low = mid + 1;
+        }
+        else if(nums[low] > nums[mid]) {
+            if(target <= nums[high] && nums[mid] < target)
+                low = mid + 1;
+            else
+                high = mid - 1;
+        }
+		// duplicate
+        else {
+            low += 1;
+        }
+    }
+    return false;
+}
