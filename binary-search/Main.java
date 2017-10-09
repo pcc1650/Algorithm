@@ -534,3 +534,18 @@ public boolean search(int[] nums, int target) {
     }
     return false;
 }
+// 230 dfs in-order
+public int kthSmallest(TreeNode root, int k) {
+    int[] res = new int[]{k, -1};
+    inOrder(root, res);
+    return res[1];
+}
+private void inOrder(TreeNode root, int[] res) {
+    if(root.left != null)
+        inOrder(root.left, res);
+    res[0] -= 1;
+    if(res[0] == 0)
+        res[1] = root.val;
+    if(root.right != null)
+        inOrder(root.right, res);
+}
