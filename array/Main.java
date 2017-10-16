@@ -93,3 +93,38 @@ public int findPairs(int[] nums, int k) {
     }
     return count;
 }
+// 697 contest 55
+public int findShortestSubArray(int[] nums) {
+    int res = Integer.MAX_VALUE;
+    HashMap<Integer, Integer[]> map = calculateDegree(nums);
+    int degree = map.get(-1)[0];
+    for(Map.Entry<Integer, Integer[]> entry: map.entrySet()) {
+        if(entry.getValue()[0] == degree){
+            if(entry.getValue()[2] - entry.getValue()[1] + 1< res)
+                res = entry.getValue()[2] - entry.getValue()[1] + 1;
+        }
+    }
+    return res;
+}
+private HashMap<Integer, Integer[]> calculateDegree(int[] nums){
+    HashMap<Integer, Integer[]> map = new HashMap<>();
+    int degree = 0;
+    for(int i = 0; i < nums.length; i++) {
+        if(map.containsKey(nums[i])) {
+            Integer[] arr = map.get(nums[i]);
+            arr[0] += 1;
+            arr[2] = i;
+            map.put(nums[i], arr);
+        }
+        else {
+            map.put(nums[i], new Integer[]{1, i, i});
+        }
+    }
+    for(Map.Entry<Integer, Integer[]> entry: map.entrySet()) {
+        if(entry.getValue()[0] > degree){
+            degree = entry.getValue()[0];
+        }
+    }
+    map.put(-1, new Integer[]{degree, 1, 50001});
+    return map;
+}
