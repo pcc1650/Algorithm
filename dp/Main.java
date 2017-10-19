@@ -355,3 +355,67 @@ public class Main {
         return dp[0][n - 1];
     }
 }
+// 639
+public int numDecodings(String s) {
+    if(s.length() == 0)
+        return 0;
+    long[] res = new long[s.length() + 1];
+    res[0] = 1;
+    if(s.charAt(0) != '0') {
+        if(s.charAt(0) == '*')
+            res[1] = 9;
+        else
+            res[1] = 1;
+    }
+    for(int i = 2; i <= s.length(); i++) {
+        if(s.charAt(i - 1) == '*'){
+            res[i] = res[i - 1] * 9 ;
+            if(s.charAt(i - 2) == '*'){
+                res[i] += res[i - 2] * 15 ;
+            }
+            else {
+                if(s.charAt(i - 2) == '1'){
+                    res[i] += res[i - 2] * 9;
+                }
+                if(s.charAt(i - 2) == '2'){
+                    res[i] +=  res[i - 2] * 6;
+                }
+            }
+        }
+        else{
+            res[i] = s.charAt(i - 1) == '0' ? 0 : res[i - 1];
+            if(s.charAt(i - 2) == '*'){
+                res[i] += res[i - 2] * (s.charAt(i - 1) <= '6' ? 2 : 1);
+            }
+            else if(s.charAt(i - 2) == '1'){
+                res[i] += res[i - 2];
+            }
+            else if(s.charAt(i - 2) == '2' && s.charAt(i - 1) <= '6'){
+                res[i] += res[i - 2];
+            }
+        }
+        res[i] %= 1000000007;
+    }
+    return (int)res[s.length()];
+}
+// 91
+public int numDecodings(String s) {
+    if(s.length() == 0)
+        return 0;
+    int[] res = new int[s.length() + 1];
+    res[0] = 1;
+    if(s.substring(0, 1).equals("0")){
+        res[1] = 0;
+    }
+    else
+        res[1] = 1;
+    for(int i = 2; i <= s.length(); i++) {
+        int first = Integer.parseInt(s.substring(i - 1, i));
+        int second = Integer.parseInt(s.substring(i - 2, i));
+        if(first != 0)
+            res[i] = res[i - 1];
+        if(second > 9 && second <= 26)
+            res[i] += res[i - 2];
+    }
+    return res[s.length()];
+}
