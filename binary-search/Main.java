@@ -549,3 +549,20 @@ private void inOrder(TreeNode root, int[] res) {
     if(root.right != null)
         inOrder(root.right, res);
 }
+// 162
+public int findPeakElement(int[] nums) {
+    if(nums == null || nums.length == 0)
+        return -1;
+    if(nums.length == 1)
+        return 0;
+    int left = 0, right = nums.length - 1;
+    while(left < right) {
+        int med = left + (right - left) / 2;
+        int medNext = med + 1;
+        if(nums[med] < nums[medNext])
+            left = medNext;
+        else
+            right = med;
+    }
+    return left;
+}
