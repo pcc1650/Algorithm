@@ -576,3 +576,24 @@ public int findPeakElement(int[] nums) {
     }
     return nums.length - 1;
 }
+// 209 two pointer
+public int minSubArrayLen(int s, int[] nums) {
+    if(nums.length == 0)
+        return 0;
+    int res = Integer.MAX_VALUE;
+    int count = nums[0];
+    int prev = 0, next = 0;
+    while(prev <= next && next < nums.length) {
+        if(count >= s){
+            res = Math.min(res, next - prev + 1);
+            count -= nums[prev++];
+            continue;
+        }
+        next += 1;
+        if(next < nums.length)
+            count += nums[next];
+        else
+            break;
+    }
+    return res == Integer.MAX_VALUE ? 0: res;
+}

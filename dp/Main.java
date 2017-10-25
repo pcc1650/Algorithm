@@ -355,3 +355,52 @@ public class Main {
         return dp[0][n - 1];
     }
 }
+// 121 Best time to buy and sell stock 1
+public int maxProfit(int[] prices) {
+    if(prices == null || prices.length == 0 )
+        return 0;
+    int[] dp = new int[prices.length];
+    int lowest = prices[0];
+    for(int i = 1; i < prices.length; i++) {
+        dp[i] = Math.max(dp[i - 1], prices[i] - lowest);
+        if(prices[i] < lowest)
+            lowest = prices[i];
+    }
+    return dp[prices.length - 1];
+}
+// 122 Best time to buy and sell stock 2
+// actually it's a GREDDY problem
+public int maxProfit(int[] prices) {
+    int res = 0;
+    for(int i = 1; i < prices.length; i++) {
+        if(prices[i] > prices[i - 1])
+            res += prices[i] - prices[i - 1];
+    }
+    return res;
+}
+// 188 Best time to buy and sell stock 4
+// The third one is when k = 2
+public int maxProfit(int k, int[] prices) {
+    if(prices.length == 0 || k == 0)
+        return 0;
+    int len = prices.length;
+    if (k >= len / 2) return quickSolve(prices);
+    
+    int[][] t = new int[k + 1][len];
+    for (int i = 1; i <= k; i++) {
+        int tempMax = -prices[0];
+        for (int j = 1; j < len; j++) {
+            t[i][j] = Math.max(t[i][j - 1], tempMax + prices[j]);
+            tempMax = Math.max(tempMax, t[i - 1][j - 1] - prices[j]);
+        }
+    }
+    return t[k][len - 1];
+}
+public int quickSolve(int[] prices) {
+    int res = 0;
+    for(int i = 1; i < prices.length; i++) {
+        if(prices[i] > prices[i - 1])
+            res += prices[i] - prices[i - 1];
+    }
+    return res;
+}
