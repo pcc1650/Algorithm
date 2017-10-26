@@ -597,3 +597,31 @@ public int minSubArrayLen(int s, int[] nums) {
     }
     return res == Integer.MAX_VALUE ? 0: res;
 }
+// 209 binary search
+public int minSubArrayLen(int s, int[] nums) {
+    if(nums.length == 0)
+        return 0;
+    int res = Integer.MAX_VALUE;
+    int[] sums = new int[nums.length];
+    sums[0] = nums[0];
+    for(int i = 1; i < nums.length; i++)
+        sums[i] = sums[i - 1] + nums[i];
+    for(int i = 0; i < nums.length; i++) {
+        int prev = i;
+        int next = nums.length - 1;
+        int count = 0;
+        while(prev < next) {
+            count = 0;
+            int mid = prev + (next - prev) / 2;
+            count = sums[mid] - (i - 1 >= 0 ?sums[i - 1] : 0);
+            if(count < s)
+                prev = mid + 1;
+            else
+                next = mid;
+        }
+        count += nums[prev];
+        if(count >= s)
+            res = Math.min(res, prev - i + 1);
+    }
+    return res == Integer.MAX_VALUE ? 0: res;
+}
