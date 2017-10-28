@@ -639,3 +639,36 @@ public double myPow(double x, int n) {
         return n % 2 == 0 ?  myPow(x * x, n / 2) : x * myPow(x * x, n / 2);
     }
 }
+// 436
+public int[] findRightInterval(Interval[] intervals) {
+    int[] res = new int[intervals.length];
+    Interval[] sortIntervals = new Interval[intervals.length];
+    HashMap<Integer, Integer> map = new HashMap<>();
+    PriorityQueue<Interval> pqueue = new PriorityQueue<Interval>((i1, i2) -> (i1.start - i2.start));
+    for(int i = 0; i < intervals.length; i++) {
+        map.put(intervals[i].start, i);
+        pqueue.add(intervals[i]);
+    }
+    int index = 0;
+    while(!pqueue.isEmpty()) {
+        Interval inter = pqueue.poll();
+        sortIntervals[index++] = inter;
+    }
+    for(int i = 0; i < intervals.length; i++) {
+        res[i] = bSearch(sortIntervals, intervals[i].end, map);
+    }
+    return res;
+}
+public int bSearch(Interval[] sortIntervals, int end, HashMap<Integer, Integer> map){
+    int low = 0, high = sortIntervals.length - 1;
+    while(low < high){
+        int mid = low + (high - low) / 2;
+        if(sortIntervals[mid].start < end)
+            low = mid + 1;
+        else
+            high = mid;
+    }
+    if(sortIntervals[low].start < end)
+        return -1;
+    return map.get(sortIntervals[low].start);       
+}
