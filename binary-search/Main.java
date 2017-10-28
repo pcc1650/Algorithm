@@ -625,3 +625,17 @@ public int minSubArrayLen(int s, int[] nums) {
     }
     return res == Integer.MAX_VALUE ? 0: res;
 }
+// 50
+public double myPow(double x, int n) {
+    if(n == 0)
+        return 1;
+    else if(n < 0){
+        x = 1 / x;
+        n = -n;
+        // to deal with if n equals to Integer.MIN_VALUE
+        return x * myPow(x, n - 1);
+    }
+    else {
+        return n % 2 == 0 ?  myPow(x * x, n / 2) : x * myPow(x * x, n / 2);
+    }
+}
