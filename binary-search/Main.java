@@ -672,3 +672,26 @@ public int bSearch(Interval[] sortIntervals, int end, HashMap<Integer, Integer> 
         return -1;
     return map.get(sortIntervals[low].start);       
 }
+// 668
+// For 2D array, the key is to find how many numbers less than "mid".
+// The "mid" number could not a number in the array. It can be a number between low and high.
+public int findKthNumber(int m, int n, int k) {
+    int low = 1, high = m * n;
+    while(low < high) {
+        int mid = low + (high - low) / 2;
+        int c = count(mid, m, n);
+        if(c >= k)
+            high = mid;
+        else
+            low = mid + 1;
+    }
+    return low;
+}
+public int count(int mid, int m, int n) {
+    int res = 0;
+    for(int i = 1; i <= m; i++) {
+        int temp = Math.min(mid / i, n);
+        res += temp;
+    }
+    return res;
+}
