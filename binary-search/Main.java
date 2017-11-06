@@ -549,3 +549,149 @@ private void inOrder(TreeNode root, int[] res) {
     if(root.right != null)
         inOrder(root.right, res);
 }
+// 162
+public int findPeakElement(int[] nums) {
+    if(nums == null || nums.length == 0)
+        return -1;
+    if(nums.length == 1)
+        return 0;
+    int left = 0, right = nums.length - 1;
+    while(left < right) {
+        int med = left + (right - left) / 2;
+        int medNext = med + 1;
+        if(nums[med] < nums[medNext])
+            left = medNext;
+        else
+            right = med;
+    }
+    return left;
+}
+// 162 sequential search
+public int findPeakElement(int[] nums) {
+    if(nums.length == 1)
+        return 0;
+    for(int i = 0; i < nums.length - 1; i++) {
+        if(nums[i] > nums[i + 1])
+            return i;
+    }
+    return nums.length - 1;
+}
+// 209 two pointer
+public int minSubArrayLen(int s, int[] nums) {
+    if(nums.length == 0)
+        return 0;
+    int res = Integer.MAX_VALUE;
+    int count = nums[0];
+    int prev = 0, next = 0;
+    while(prev <= next && next < nums.length) {
+        if(count >= s){
+            res = Math.min(res, next - prev + 1);
+            count -= nums[prev++];
+            continue;
+        }
+        next += 1;
+        if(next < nums.length)
+            count += nums[next];
+        else
+            break;
+    }
+    return res == Integer.MAX_VALUE ? 0: res;
+}
+// 209 binary search
+public int minSubArrayLen(int s, int[] nums) {
+    if(nums.length == 0)
+        return 0;
+    int res = Integer.MAX_VALUE;
+    int[] sums = new int[nums.length];
+    sums[0] = nums[0];
+    for(int i = 1; i < nums.length; i++)
+        sums[i] = sums[i - 1] + nums[i];
+    for(int i = 0; i < nums.length; i++) {
+        int prev = i;
+        int next = nums.length - 1;
+        int count = 0;
+        while(prev < next) {
+            count = 0;
+            int mid = prev + (next - prev) / 2;
+            count = sums[mid] - (i - 1 >= 0 ?sums[i - 1] : 0);
+            if(count < s)
+                prev = mid + 1;
+            else
+                next = mid;
+        }
+        count += nums[prev];
+        if(count >= s)
+            res = Math.min(res, prev - i + 1);
+    }
+    return res == Integer.MAX_VALUE ? 0: res;
+}
+// 50
+public double myPow(double x, int n) {
+    if(n == 0)
+        return 1;
+    else if(n < 0){
+        x = 1 / x;
+        n = -n;
+        // to deal with if n equals to Integer.MIN_VALUE
+        return x * myPow(x, n - 1);
+    }
+    else {
+        return n % 2 == 0 ?  myPow(x * x, n / 2) : x * myPow(x * x, n / 2);
+    }
+}
+// 436
+public int[] findRightInterval(Interval[] intervals) {
+    int[] res = new int[intervals.length];
+    Interval[] sortIntervals = new Interval[intervals.length];
+    HashMap<Integer, Integer> map = new HashMap<>();
+    PriorityQueue<Interval> pqueue = new PriorityQueue<Interval>((i1, i2) -> (i1.start - i2.start));
+    for(int i = 0; i < intervals.length; i++) {
+        map.put(intervals[i].start, i);
+        pqueue.add(intervals[i]);
+    }
+    int index = 0;
+    while(!pqueue.isEmpty()) {
+        Interval inter = pqueue.poll();
+        sortIntervals[index++] = inter;
+    }
+    for(int i = 0; i < intervals.length; i++) {
+        res[i] = bSearch(sortIntervals, intervals[i].end, map);
+    }
+    return res;
+}
+public int bSearch(Interval[] sortIntervals, int end, HashMap<Integer, Integer> map){
+    int low = 0, high = sortIntervals.length - 1;
+    while(low < high){
+        int mid = low + (high - low) / 2;
+        if(sortIntervals[mid].start < end)
+            low = mid + 1;
+        else
+            high = mid;
+    }
+    if(sortIntervals[low].start < end)
+        return -1;
+    return map.get(sortIntervals[low].start);       
+}
+// 668
+// For 2D array, the key is to find how many numbers less than "mid".
+// The "mid" number could not a number in the array. It can be a number between low and high.
+public int findKthNumber(int m, int n, int k) {
+    int low = 1, high = m * n;
+    while(low < high) {
+        int mid = low + (high - low) / 2;
+        int c = count(mid, m, n);
+        if(c >= k)
+            high = mid;
+        else
+            low = mid + 1;
+    }
+    return low;
+}
+public int count(int mid, int m, int n) {
+    int res = 0;
+    for(int i = 1; i <= m; i++) {
+        int temp = Math.min(mid / i, n);
+        res += temp;
+    }
+    return res;
+}
