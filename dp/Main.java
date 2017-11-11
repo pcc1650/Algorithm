@@ -498,3 +498,33 @@ public int minimumDeleteSum(String s1, String s2) {
     }
     return dp[0][0];
 }
+// 673
+public int findNumberOfLIS(int[] nums) {
+    int len = nums.length;
+    int[] lengths = new int[len];
+    int[] count = new int[len];
+    int maxLen = 0;
+    int res = 0;
+    Arrays.fill(count, 1);
+    for(int j = 0; j < len; j++) {
+        for(int i = 0; i < j; i++) {
+            if(nums[i] < nums[j]){
+                if(lengths[i] >= lengths[j]){
+                    lengths[j] = lengths[i] + 1;
+                    count[j] = count[i];
+                }
+                else if(lengths[i] == lengths[j] - 1){
+                    count[j] += count[i];
+                }
+            }
+        }
+    }
+    for(int length: lengths){
+        maxLen = Math.max(length, maxLen);
+    }
+    for(int i = 0; i < len; i++) {
+        if(lengths[i] == maxLen)
+            res += count[i];
+    }
+    return res;
+}
