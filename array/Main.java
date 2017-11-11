@@ -128,3 +128,20 @@ private HashMap<Integer, Integer[]> calculateDegree(int[] nums){
     map.put(-1, new Integer[]{degree, 1, 50001});
     return map;
 }
+// 684(slide window)
+public int findLengthOfLCIS(int[] nums) {
+    int len = nums.length;
+    int res = len == 0? 0: 1;
+    int index = 0;
+    int anchor = 0;
+    while(index < len) {
+        if(index > 0 && nums[index] > nums[index - 1]){
+            res = Math.max(res, index - anchor + 1);
+        }
+        else{
+            anchor = index;
+        }
+        index += 1;
+    }
+    return res;
+}
