@@ -528,3 +528,29 @@ public int findNumberOfLIS(int[] nums) {
     }
     return res;
 }
+// 688
+public double knightProbability(int N, int K, int r, int c) {
+    int[][] steps = new int[][]{{-2, -1}, {-2, 1}, {-1, 2}, {1, 2}, {2, 1}, {2, -1}, {1, -2}, {-1, -2}};
+    double[][][] dp = new double[N][N][K + 1];
+    dp[r][c][K] = 1.0;
+    for(; K > 0; K--) {
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++) {
+                for(int[] step: steps){
+                    int nr = i + step[0];
+                    int nc = j + step[1];
+                    if(nr >= 0 && nc >= 0 && nr < N && nc < N){
+                        dp[i][j][K - 1] += dp[nr][nc][K] / 8.0;
+                    }
+                }
+            }
+        }
+    }
+    double res = 0;
+    for(int i = 0; i < N; i++) {
+        for(int j = 0; j < N; j++){
+            res += dp[i][j][0];
+        }
+    }
+    return res;
+}
