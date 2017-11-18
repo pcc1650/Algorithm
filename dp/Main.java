@@ -610,3 +610,15 @@ public void helper(String s, int[] res, int start, int end) {
     }
     res[0] += count;
 }
+// 646
+public int findLongestChain(int[][] pairs) {
+    int[] dp = new int[pairs.length];
+    Arrays.sort(pairs, (a, b) -> (a[0] - b[0]));
+    Arrays.fill(dp, 1);
+    for(int i = 0; i < pairs.length; i++) {
+        for(int j = 0; j < i; j++) {
+            dp[i] = Math.max(dp[i], pairs[i][0] > pairs[j][1] ? dp[j] + 1: dp[j]);
+        }
+    }
+    return dp[pairs.length - 1];
+}
