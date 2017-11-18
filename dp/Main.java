@@ -528,7 +528,7 @@ public int findNumberOfLIS(int[] nums) {
     }
     return res;
 }
-// 688
+// 688(actually no need for three-dimension array, because current state only affected by last round state)
 public double knightProbability(int N, int K, int r, int c) {
     int[][] steps = new int[][]{{-2, -1}, {-2, 1}, {-1, 2}, {1, 2}, {2, 1}, {2, -1}, {1, -2}, {-1, -2}};
     double[][][] dp = new double[N][N][K + 1];
