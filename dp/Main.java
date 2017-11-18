@@ -586,3 +586,27 @@ public int minSteps(int n) {
     }
     return dp[n];
 }
+// 647
+public int countSubstrings(String s) {
+    int[] res = new int[1];
+    if(s == null || s.length() == 0)
+        return 0;
+    for(int i = 0; i < s.length(); i++) {
+        helper(s, res, i, i);
+        helper(s, res, i, i + 1);
+    }
+    return res[0];
+}
+public void helper(String s, int[] res, int start, int end) {
+    int count = 0;
+    while(start >= 0 && end < s.length()){
+        if(s.charAt(start) == s.charAt(end)){
+            count += 1;
+            start -= 1;
+            end += 1;
+        }
+        else
+            break;
+    }
+    res[0] += count;
+}
