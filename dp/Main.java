@@ -571,3 +571,21 @@ public int findTargetSumWays(int[] nums, int S) {
     }
     return S > 1000 ? 0: dp[len - 1][S + 1000];
 }
+// 494(Could reduce to one-dimensional array)
+public int findTargetSumWays(int[] nums, int S) {
+    int len = nums.length;
+    int[] dp = new int[2001];
+    dp[nums[0] + 1000] = 1;
+    dp[-nums[0] + 1000] += 1;
+    for(int i = 1; i < len; i++) {
+        int[] next = new int[2001];
+        for(int j = 0; j < 2001; j++) {
+            if(dp[j] > 0) {
+                next[j + nums[i]] += dp[j];
+                next[j - nums[i]] += dp[j];
+            }
+        }
+        dp = next;
+    }
+    return S > 1000 ? 0: dp[S + 1000];
+}
