@@ -554,3 +554,20 @@ public double knightProbability(int N, int K, int r, int c) {
     }
     return res;
 }
+// 494
+public int findTargetSumWays(int[] nums, int S) {
+    int len = nums.length;
+    int[][] dp = new int[len][2001];
+    dp[0][nums[0] + 1000] = 1;
+    dp[0][-nums[0] + 1000] += 1;
+    for(int i = 1; i < len; i++) {
+        for(int j = 0; j < 2001; j++) {
+			// Actually this method is more subtle. Here a more intuitive method could be used.
+            if(dp[i - 1][j] > 0) {
+                dp[i][j + nums[i]] += dp[i - 1][j];
+                dp[i][j - nums[i]] += dp[i - 1][j];
+            }
+        }
+    }
+    return S > 1000 ? 0: dp[len - 1][S + 1000];
+}
