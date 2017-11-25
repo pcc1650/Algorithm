@@ -621,4 +621,60 @@ public int findLongestChain(int[][] pairs) {
         }
     }
     return dp[pairs.length - 1];
+// 494
+public int findTargetSumWays(int[] nums, int S) {
+    int len = nums.length;
+    int[][] dp = new int[len][2001];
+    dp[0][nums[0] + 1000] = 1;
+    dp[0][-nums[0] + 1000] += 1;
+    for(int i = 1; i < len; i++) {
+        for(int j = 0; j < 2001; j++) {
+			// Actually this method is more subtle. Here a more intuitive method could be used.
+            if(dp[i - 1][j] > 0) {
+                dp[i][j + nums[i]] += dp[i - 1][j];
+                dp[i][j - nums[i]] += dp[i - 1][j];
+            }
+        }
+    }
+    return S > 1000 ? 0: dp[len - 1][S + 1000];
 }
+// 494(Could reduce to one-dimensional array)
+public int findTargetSumWays(int[] nums, int S) {
+    int len = nums.length;
+    int[] dp = new int[2001];
+    dp[nums[0] + 1000] = 1;
+    dp[-nums[0] + 1000] += 1;
+    for(int i = 1; i < len; i++) {
+        int[] next = new int[2001];
+        for(int j = 0; j < 2001; j++) {
+            if(dp[j] > 0) {
+                next[j + nums[i]] += dp[j];
+                next[j - nums[i]] += dp[j];
+            }
+        }
+        dp = next;
+    }
+    return S > 1000 ? 0: dp[S + 1000];
+}
+// 494(another way to convert to Partition Equal Subset)
+public int findTargetSumWays(int[] nums, int S) {
+    int sum = 0;
+    for(int num: nums)
+        sum += num;
+    if((S + sum) % 2 == 1 || sum < S)
+        return 0;
+    sum = (S + sum ) / 2;
+    // convert to Partition Equal Subset problem(0/1 knapsack)
+    int[] dp = new int[sum + 1];
+    // initialize the dp[0]
+    dp[0] = 1;
+    for(int i = 0; i < nums.length; i++) {
+        for(int j = sum; j >= 0; j--) {
+            if(j >= nums[i]){
+                dp[j] += dp[j - nums[i]];
+            }
+        }
+    }
+    return dp[sum];
+}
+
