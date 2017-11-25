@@ -678,3 +678,25 @@ public int findTargetSumWays(int[] nums, int S) {
     return dp[sum];
 }
 
+// 416(this is one dimensional method optimized by two dimensional method which is easier understanding)
+// maybe it's better to make i from 0 and initialize dp[0]=true
+public boolean canPartition(int[] nums) {
+    int sum = 0;
+    for(int n: nums)
+        sum += n;
+    if(sum % 2 == 1 || nums.length <= 1)
+        return false;
+    sum /= 2;
+    boolean[] dp = new boolean[sum + 1];
+    Arrays.fill(dp, false);
+    dp[nums[0]] = true;
+    for(int i = 1; i < nums.length; i++) {
+        for(int j = sum; j >= 0; j--) {
+            if(j >= nums[i]){
+                dp[j] = dp[j] || dp[j - nums[i]];
+            }
+        }
+    }
+    return dp[sum];
+}
+
